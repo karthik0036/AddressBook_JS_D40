@@ -74,6 +74,24 @@ class AddressBookService {
         });
         return contactInfoList;
     }
+
+    /**
+     * Purpose : To delete contact details by giving their first name 
+     * 
+     * @param {*} contactInfoList 
+     * @param {*} fname 
+     * @returns 
+     */
+     deleteContact(contactInfoList, fname) {
+        contactInfoList.forEach(value => {
+            if ((value.fName === fname) == true) {
+                let index = contactInfoList.indexOf(fname);
+                contactInfoList.splice(index, 1);
+            }
+        });
+        return contactInfoList;
+    }
+
 }
 
 module.exports = AddressBookService;
