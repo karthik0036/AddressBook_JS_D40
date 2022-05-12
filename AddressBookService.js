@@ -1,29 +1,61 @@
 //importing another class file to the class file
-const ContactDetails = require("./ContactDetails.js"); 
+const ContactDetails = require("./ContactDetails.js");
 const prompt = require('prompt-sync')();
 
 class AddressBookService {
     contactInfoList = new Array();
-    insert(contactInfoList) {
-        try{
-            let contactInfo = new ContactDetails();
-            contactInfo.fName = prompt("Enter First Name : "); 
-            contactInfo.lName = prompt("Enter Last Name : "); 
-            contactInfo.addressName = prompt("Enter Address : "); 
-            contactInfo.cityName = prompt("Enter City : "); 
-            contactInfo.stateName = prompt("Enter State : "); 
-            contactInfo.zipNumber = prompt("Enter Zip : "); 
-            contactInfo.phoneNo = prompt("Enter Phone Number : "); 
-            contactInfo.emailID = prompt("Enter Email : "); 
 
-            contactInfoList.push(contactInfo);
+    /**
+     * Purpose : To insert new contact in the address book 
+     * 
+     * @param {*} contactInfoList 
+     * @returns 
+     */
+    insert(contactInfoList) {
+        let found = false;
+        try {
+            let contactInfo = new ContactDetails();
+            contactInfo.fName = prompt("Enter First Name : ");
+            contactInfo.lName = prompt("Enter Last Name : ");
+            contactInfo.addressName = prompt("Enter Address : ");
+            contactInfo.cityName = prompt("Enter City : ");
+            contactInfo.stateName = prompt("Enter State : ");
+            contactInfo.zipNumber = prompt("Enter Zip : ");
+            contactInfo.phoneNo = prompt("Enter Phone Number : ");
+            contactInfo.emailID = prompt("Enter Email : ");
+
+            if (contactInfoList.length < 0) {
+                contactInfoList.push(contactInfo);
+            } else if (contactInfoList.length >= 0) {
+                contactInfoList.forEach(element => {
+                    if ((element.fName === contactInfo.fName) == true) {
+                        found = true;
+                        return;
+                    }
+                });
+                if (found == true) {
+                    console.log();
+                    console.log("Duplicate entry exists!");
+                    console.log();
+                } else {
+                    contactInfoList.push(contactInfo);
+                }
+            }
 
             return contactInfoList;
-        } catch ( e ) {
+        } catch (e) {
             console.error(e);
         }
     }
 
+
+    /**
+     * Purpose : To edit contact details by giving the first name of contact
+     * 
+     * @param {*} contactInfoList 
+     * @param {*} fname 
+     * @returns 
+     */
     editContact(contactInfoList, fname) {
         contactInfoList.forEach(element => {
             if ((element.fName === fname) == true) {
@@ -75,6 +107,7 @@ class AddressBookService {
         return contactInfoList;
     }
 
+
     /**
      * Purpose : To delete contact details by giving their first name 
      * 
@@ -82,7 +115,7 @@ class AddressBookService {
      * @param {*} fname 
      * @returns 
      */
-     deleteContact(contactInfoList, fname) {
+    deleteContact(contactInfoList, fname) {
         contactInfoList.forEach(value => {
             if ((value.fName === fname) == true) {
                 let index = contactInfoList.indexOf(fname);
